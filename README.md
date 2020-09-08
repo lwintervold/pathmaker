@@ -17,5 +17,5 @@ $ git clone https://github.com/lwintervold/pathmaker
 $ cd pathmaker
 $ python -m venv venv
 $ .\venv\Scripts\activate
-$ pip install --requirement \.requirements.txt
+$ pip install --requirement .\requirements.txt
 ```

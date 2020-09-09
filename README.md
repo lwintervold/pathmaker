@@ -5,8 +5,12 @@ To run:
 
 Draw on a grid to obstruct the shortest path between two points.
 
+## Controls
+
 Left click					: Disable a cell
+
 Shift + Left click	:	Enable a cell
+
 Spacebar						: Draw the shortest path
 
 # Installation

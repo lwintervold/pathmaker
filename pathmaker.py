@@ -1,10 +1,12 @@
-import pygame
+import pygame # type: ignore
 import heapq
 import math
 
 from typing import Tuple
 from typing import List
 from typing import Set
+from typing import Optional
+from typing import Dict
 
 dimension = 800
 screen = pygame.display.set_mode((dimension, dimension))
@@ -18,7 +20,7 @@ BLACK = (0, 0, 0)
 def euclidianDistance(
 	start : Tuple[int, int],
 	end : Tuple[int, int]
-	) -> int:
+	) -> float:
 
 	(sx, sy) = start
 	(ex, ey) = end
@@ -55,11 +57,11 @@ def aStarPath(
 	end : Tuple[int, int],
 	blocked : Set[Tuple[int, int]],
 	bounds : Tuple[int, int]
-	) -> List[Tuple[int, int]]:
+	) -> Optional[List[Tuple[int, int]]]:
 
-	frontier = [(0, start)]
-	originpaths = {}
-	costs = {}
+	frontier : List[Tuple[float, Tuple[int, int]]] = [(0, start)]
+	originpaths: Dict[Tuple[int, int], Tuple[int, int]] = {}
+	costs: Dict[Tuple[int, int], float] = {}
 	costs[start] = 0
 
 	while len(frontier) > 0:
@@ -123,7 +125,7 @@ if __name__ == '__main__':
 				 cellsize - padding,
 				 cellsize - padding))
 	pygame.display.update()
-	blocked_coords = set()
+	blocked_coords: Set[Tuple[int, int]]= set()
 	alive = True
 	path = None
 	while alive:

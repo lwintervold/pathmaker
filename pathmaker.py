@@ -11,6 +11,10 @@ screen = pygame.display.set_mode((dimension, dimension))
 padding = 1
 cellsize = 10
 
+WHITE = (255, 255, 255)
+GREEN = (0, 255, 0)
+BLACK = (0, 0, 0)
+
 def euclidianDistance(
 	start : Tuple[int, int],
 	end : Tuple[int, int]
@@ -101,11 +105,19 @@ def mouseCoordsToNormCoords(
 	y = (my - padding) // cellsize
 	return (x, y)
 
+def clearDrawnPath(
+	path : List[Tuple[int, int]],
+	blocked_coords : Set[Tuple[int, int]]
+	) -> None:
+	for coords in path:
+		if coords not in blocked_coords:
+			drawRectFromNormCoords(coords, WHITE)
+
 if __name__ == '__main__':
 	for row in range(dimension // cellsize):
 		for col in range(dimension // cellsize):
 			pygame.draw.rect(screen,
-				(255, 255, 255),
+				WHITE,
 				pygame.Rect(col * cellsize + padding,
 				 row * cellsize + padding,
 				 cellsize - padding,
@@ -113,23 +125,28 @@ if __name__ == '__main__':
 	pygame.display.update()
 	blocked_coords = set()
 	alive = True
+	path = None
 	while alive:
 		for event in pygame.event.get():
 			if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
-				path = aStarPath((5,5), (70, 70), blocked_coords, (dimension // cellsize, dimension // cellsize))
-				if not path:
+				newpath = aStarPath((5,5), (70, 70), blocked_coords, (dimension // cellsize, dimension // cellsize))
+				if newpath is None:
 					continue
-				for coords in path:
-					drawRectFromNormCoords(coords, (0, 255, 0))
-					pygame.display.update()
+				if path is not None:
+					# Clear old path
+					clearDrawnPath(path, blocked_coords)
+				for coords in newpath:
+					drawRectFromNormCoords(coords, GREEN)
+				path = newpath
+				pygame.display.update()
 
 			if pygame.mouse.get_pressed()[0]:
 				coords = mouseCoordsToNormCoords(pygame.mouse.get_pos())
 				if pygame.key.get_mods() & pygame.KMOD_SHIFT:
-					color = (255, 255, 255)
+					color = WHITE
 					blocked_coords.discard(coords)
 				else:
-					color = (0, 0, 0)
+					color = BLACK
 					blocked_coords.add(coords)
 				
 				drawRectFromNormCoords(coords, color)

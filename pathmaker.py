@@ -128,6 +128,11 @@ if __name__ == '__main__':
 	path = None
 	while alive:
 		for event in pygame.event.get():
+
+			if event.type == pygame.QUIT:
+				pygame.quit()
+				exit()
+
 			if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
 				newpath = aStarPath((5,5), (70, 70), blocked_coords, (dimension // cellsize, dimension // cellsize))
 				if newpath is None:

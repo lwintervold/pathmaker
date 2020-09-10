@@ -22,10 +22,13 @@ RED = (255, 0, 0)
 def heightToColor(
 	height : int
 	) -> int:
-	
+
+	scale = min(abs(height) * 64, 255)
 	if height < 0:
-		return tuple([min(chan * abs(height) * 10 + chan * 100, 255) for chan in (0, 0, 1)])
-	return tuple([min(chan * abs(height) * 10 + chan * 100, 255) for chan in (1, 0, 0)])
+		sub = (scale, scale, 0)
+	else:
+		sub = (0, scale, scale)
+	return tuple(map(lambda x, y : x - y, WHITE, sub))
 
 def euclidianDistance(
 	start : Tuple[int, int],

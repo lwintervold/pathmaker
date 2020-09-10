@@ -11,6 +11,10 @@ Left click					: Disable a cell
 
 Shift + Left click	:	Enable a cell
 
+Right click					: Increase cell height
+
+Left click					: Decrease cell height
+
 Spacebar						: Draw the shortest path
 
 # Installation

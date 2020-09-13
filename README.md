@@ -13,9 +13,11 @@ Shift + Left click	:	Enable a cell
 
 Right click					: Increase cell height
 
-Left click					: Decrease cell height
+Shift + Right click	: Decrease cell height
 
 Spacebar						: Draw the shortest path
+
+3										: Draw the grid in 3d
 
 # Installation
 

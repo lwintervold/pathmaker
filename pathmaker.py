@@ -1,6 +1,7 @@
 import pygame # type: ignore
 import heapq
 import math
+import matplotlib.pyplot as plt
 
 from typing import Tuple
 from typing import List
@@ -13,17 +14,26 @@ screen = pygame.display.set_mode((dimension, dimension))
 padding = 1
 cellsize = 10
 
-WHITE = (255, 255, 255)
-GREEN = (0, 255, 0)
+COLORMAX = 255
+COLORINTERVAL = 64
+
+WHITE = (COLORMAX, COLORMAX, COLORMAX)
+GREEN = (0, COLORMAX, 0)
 BLACK = (0, 0, 0)
-BLUE = (0, 0, 255)
-RED = (255, 0, 0)
+BLUE = (0, 0, COLORMAX)
+RED = (COLORMAX, 0, 0)
+
+def normalizeColor(
+	color : Tuple[int, int, int]
+	) -> Tuple [float, float, float]:
+
+		return tuple(map(lambda x: x / 255 if x != 0 else 0, color))
 
 def heightToColor(
 	height : int
 	) -> int:
 
-	scale = min(abs(height) * 64, 255)
+	scale = min(abs(height) * COLORINTERVAL, COLORMAX)
 	if height < 0:
 		sub = (scale, scale, 0)
 	else:
@@ -168,6 +178,25 @@ if __name__ == '__main__':
 				path = newpath
 				pygame.display.update()
 
+			if event.type == pygame.KEYDOWN	and event.key == pygame.K_3:
+				n_green = normalizeColor(GREEN)
+				n_blue = normalizeColor(BLUE)
+				n_clear = (0, 0, 0, 0)
+				fig = plt.figure(figsize=(16, 12))
+				ax = fig.add_subplot(121, projection='3d')
+				_x = [x for x in range(dimension // cellsize) for y in range(dimension // cellsize)]
+				_y = [y for x in range(dimension // cellsize) for y in range(dimension // cellsize)]
+				_h = [heights[height] if height in heights else 0 for height in zip(_x, _y)]
+				_c = [n_green if coords in path else n_clear if coords in blocked_coords else n_blue for coords in zip(_x, _y)]
+				ax._autoscaleZon = False
+				ax.set_zbound( -math.ceil(COLORMAX / COLORINTERVAL) * 2, math.ceil(COLORMAX / COLORINTERVAL) * 2)
+				ax.bar3d(_x, _y, 0, 1, 1, _h, color= _c)
+				ax.view_init(60, 100)
+				ax.invert_yaxis()
+				plt.tight_layout()
+				plt.axis('off')
+				plt.show()
+
 			pressed = pygame.mouse.get_pressed()
 			coords = mouseCoordsToNormCoords(pygame.mouse.get_pos())
 			if pressed[0]:
@@ -181,10 +210,10 @@ if __name__ == '__main__':
 				pygame.display.update()
 			if pressed[2]:
 				height = heights[coords] if coords in heights else 0
-				if pygame.key.get_mods() & pygame.KMOD_CTRL:
-					height -= 1
+				if pygame.key.get_mods() & pygame.KMOD_SHIFT:
+					height = max(height - 1, -math.ceil(COLORMAX / COLORINTERVAL))
 				else:
-					height += 1
+					height = min(height + 1, math.ceil(COLORMAX / COLORINTERVAL))
 				heights[coords] = height
 				color = heightToColor(height)
 				drawRectFromNormCoords(coords, color)

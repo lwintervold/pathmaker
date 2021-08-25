@@ -1,7 +1,7 @@
 # Overview
 
 To run:
-`python pathmaker.py`
+`python3 pathmaker.py`
 
 Draw on a grid to obstruct the shortest path between two points.
 
@@ -23,19 +23,19 @@ Spacebar						: Draw the shortest path
 
 Linux
 ```
-$ apt-get install python3-tk
-$ git clone https://github.com/lwintervold/pathmaker
-$ cd pathmaker
-$ python -m venv venv
-$ source venv/bin/activate
-$ pip install -r requirements.txt
+sudo apt-get install python3-tk
+git clone https://github.com/lwintervold/pathmaker
+cd pathmaker
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
 ```
 
 Windows
 ```
-$ git clone https://github.com/lwintervold/pathmaker
-$ cd pathmaker
-$ python -m venv venv
-$ .\venv\Scripts\activate
-$ pip install --requirement .\requirements.txt
+git clone https://github.com/lwintervold/pathmaker
+cd pathmaker
+python -m venv venv
+.\venv\Scripts\activate
+pip install --requirement .\requirements.txt
 ```

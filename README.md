@@ -21,6 +21,16 @@ Spacebar						: Draw the shortest path
 
 # Installation
 
+Linux
+```
+$ apt-get install python3-tk
+$ git clone https://github.com/lwintervold/pathmaker
+$ cd pathmaker
+$ python -m venv venv
+$ source venv/bin/activate
+$ pip install -r requirements.txt
+```
+
 Windows
 ```
 $ git clone https://github.com/lwintervold/pathmaker
